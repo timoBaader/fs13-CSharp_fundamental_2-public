@@ -31,7 +31,7 @@ class Program
 
         //Challenge 7
         string firstName, middleName, lastName;
-        ParseNames("Mary Elizabeth Smith", firstName, middleName, lastName);
+        ParseNames("Mary Elizabeth Smith", out firstName, out middleName, out lastName);
         Console.WriteLine($"First name: {firstName}, middle name: {middleName}, last name: {lastName}");
 
         //Challenge 8
@@ -145,9 +145,24 @@ class Program
     - Finally print everything out. 
     Example: Demo("hello", 1, 2, "world") 
     Expected result: hello world; 3 */
-    static void Demo()
+    static void Demo(params object[] objects)
     {
+        string stringResult = "";
+        int numberResult = 0;
+        foreach (var item in objects)
+        {
 
+            switch (item.GetType().ToString())
+            {
+                case "System.String":
+                    stringResult += item;
+                    break;
+                case "System.Int32":
+                    numberResult += Convert.ToInt32(item);
+                    break;
+            }
+        }
+        Console.WriteLine(stringResult + numberResult);
     }
 
     /* Challenge 6. Write a function to swap 2 objects but only if they are of the same type 
@@ -161,12 +176,15 @@ class Program
     /* Challenge 7. Write a function to parse the first name, middle name, last name given a string. 
     The names will be returned by using out modifier */
     static void ParseNames(
-        string input,
-        out string firstName,
-        out string middleName,
-        out string lastName)
+    string input,
+    out string firstName,
+    out string middleName,
+    out string lastName)
     {
-
+        string[] names = input.Split(" ");
+        firstName = names[0];
+        middleName = names[1];
+        lastName = names[2];
     }
 
     /* Challenge 8. Write a function that does the guessing game. 
@@ -175,6 +193,20 @@ class Program
     It’ll repeat the asking until the user puts the correct answer. */
     static void GuessingGame()
     {
-
+        int guess;
+        int GetNumber()
+        {
+            Console.WriteLine("Enter a number:");
+            guess = Int32.Parse(Console.ReadLine());
+            return guess;
+        }
+        GetNumber();
+        Random rnd = new Random();
+        int answer = rnd.Next(100);
+        while (guess != answer)
+        {
+            GetNumber();
+        }
+        Console.WriteLine("Correct");
     }
 }
